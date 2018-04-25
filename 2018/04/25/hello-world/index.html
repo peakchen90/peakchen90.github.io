@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="博客">
 <meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-04-25T11:12:20.429Z">
+<meta property="og:updated_time" content="2018-04-25T11:38:50.980Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hello World">
 <meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
@@ -21,7 +21,7 @@
     <link rel="alternative" href="/atom.xml" title="博客" type="application/atom+xml">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/logo.jpg">
   
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="/css/style.css">
@@ -58,6 +58,7 @@
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
 <h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
@@ -75,6 +76,23 @@
   
 </article>
 
+
+<section id="comments">
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src='https://imsun.github.io/gitment/dist/gitment.browser.js'></script>
+  <script>
+    console.log('gitment init')
+    var gitment = new Gitment({
+      owner: 'peakchen90',
+      repo: 'peakchen90.github.io',
+      oauth: {
+        client_id: 'b4e9085d578242606a87',
+        client_secret: 'f6368f998791710ff84a1c20d4369a83085b47a3',
+      },
+    })
+    gitment.render('comments')
+  </script>
+</section>
 
 </section>
         <aside id="sidebar">
@@ -118,6 +136,20 @@
   
 </nav>
     
+<script>
+  var disqus_shortname = 'CHEN';
+  
+  var disqus_url = 'https://peakchen90.github.io/2018/04/25/hello-world/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
 
