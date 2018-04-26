@@ -77,20 +77,28 @@
 </article>
 
 
+<style>
+  #comments .vedit textarea {
+    font-family: Arial, Helvetica, sans-serif, "Microsoft YaHei";
+    -webkit-transition: none;
+    transition: none;
+    resize: none;
+  }
+</style>
 <section id="comments">
-  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-  <script src='https://imsun.github.io/gitment/dist/gitment.browser.js'></script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    console.log('gitment init')
-    var gitment = new Gitment({
-      owner: 'peakchen90',
-      repo: 'peakchen90.github.io',
-      oauth: {
-        client_id: 'b4e9085d578242606a87',
-        client_secret: 'f6368f998791710ff84a1c20d4369a83085b47a3',
-      },
-    })
-    gitment.render('comments')
+    new Valine({
+        el: '#comments' ,
+        notify: false, 
+        verify: false, 
+        appId: '5Dw1gz59PawojUDlQTAWvCv3-gzGzoHsz',
+        appKey: 'r0Yr9THgKOl8aa1zR0pBlcFS',
+        placeholder: 'leave something',
+        path: window.location.pathname, 
+        avatar: 'retro' 
+    });
   </script>
 </section>
 
@@ -136,20 +144,6 @@
   
 </nav>
     
-<script>
-  var disqus_shortname = 'CHEN';
-  
-  var disqus_url = 'https://peakchen90.github.io/2018/04/25/hello-world/';
-  
-  (function(){
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
-</script>
-
 
 <script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
 

@@ -181,6 +181,14 @@ body {
   }
 }
 ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: rgba(137,137,137,0.5);
+}
+body::-webkit-scrollbar {
   width: 0px;
 }
 .article-date,
