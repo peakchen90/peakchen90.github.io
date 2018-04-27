@@ -191,23 +191,74 @@ body {
 body::-webkit-scrollbar {
   width: 0px;
 }
-h1 {
+#comments h1 {
   font-size: 2em;
 }
-h2 {
+#comments h2 {
   font-size: 1.5em;
 }
-h3 {
+#comments h3 {
   font-size: 1.17em;
 }
-h4 {
+#comments h4 {
   font-size: 1em;
 }
-h5 {
+#comments h5 {
   font-size: 0.83em;
 }
-h6 {
+#comments h6 {
   font-size: 0.67em;
+}
+#comments .vedit textarea {
+  font-family: Arial, Helvetica, sans-serif, "Microsoft YaHei";
+  -webkit-transition: none;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  transition: none;
+  resize: none;
+}
+#comments pre {
+  position: relative;
+  margin: 1em 0;
+  border-radius: 0.2rem;
+  line-height: 1.4;
+  -webkit-overflow-scrolling: touch;
+  background-color: rgba(237,237,237,0.5);
+  color: #37474f;
+  font-size: 85%;
+  direction: ltr;
+}
+#comments pre > code {
+  display: block;
+  margin: 0;
+  padding: 14px 12px;
+  background-color: transparent;
+  font-size: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-box-decoration-break: none;
+  box-decoration-break: none;
+  overflow: auto;
+}
+#comments code {
+  border-radius: 0.2rem;
+  background-color: rgba(237,237,237,0.5);
+  color: #37474f;
+  font-size: 85%;
+  direction: ltr;
+  word-break: break-word;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  margin: 0 0.29412em;
+  padding: 0.07353em 0;
+  -webkit-box-shadow: 0.29412em 0 0 rgba(237,237,237,0.5), -0.29412em 0 0 rgba(237,237,237,0.5);
+  box-shadow: 0.29412em 0 0 rgba(237,237,237,0.5), -0.29412em 0 0 rgba(237,237,237,0.5);
+}
+#comments blockquote {
+  padding-left: 10px;
+  border-left: 4px solid rgba(0,0,0,0.26);
+  color: rgba(0,0,0,0.54);
 }
 .article-date,
 .article-category-link,
