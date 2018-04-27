@@ -5,19 +5,19 @@
   
   <title>JavaScript小数精度填坑 | CHENの博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="背景">
+  <meta name="description" content="背景背景是这样子的，首先有个一个表格，表格底部有一个统计金额的需求，而且表格的数据是可以搜索过滤的，所以统计金额的任务就交给前端来做啦。前端做的话也简单，用 Array.prototype.reduce 方法就可以搞定： 123const sum = data.reduce((prev, curr) =&amp;gt; &amp;#123;    return curr.money + prev&amp;#125;,">
 <meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript小数精度填坑">
 <meta property="og:url" content="https://peakchen90.github.io/2018/04/27/JavaScript小数精度填坑/index.html">
 <meta property="og:site_name" content="CHENの博客">
-<meta property="og:description" content="背景">
+<meta property="og:description" content="背景背景是这样子的，首先有个一个表格，表格底部有一个统计金额的需求，而且表格的数据是可以搜索过滤的，所以统计金额的任务就交给前端来做啦。前端做的话也简单，用 Array.prototype.reduce 方法就可以搞定： 123const sum = data.reduce((prev, curr) =&amp;gt; &amp;#123;    return curr.money + prev&amp;#125;,">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://peakchen90.github.io/images/javascript.png">
-<meta property="og:updated_time" content="2018-04-27T07:06:50.091Z">
+<meta property="og:updated_time" content="2018-04-27T09:44:24.434Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript小数精度填坑">
-<meta name="twitter:description" content="背景">
+<meta name="twitter:description" content="背景背景是这样子的，首先有个一个表格，表格底部有一个统计金额的需求，而且表格的数据是可以搜索过滤的，所以统计金额的任务就交给前端来做啦。前端做的话也简单，用 Array.prototype.reduce 方法就可以搞定： 123const sum = data.reduce((prev, curr) =&amp;gt; &amp;#123;    return curr.money + prev&amp;#125;,">
 <meta name="twitter:image" content="https://peakchen90.github.io/images/javascript.png">
   
     <link rel="alternative" href="/atom.xml" title="CHENの博客" type="application/atom+xml">
@@ -57,7 +57,16 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="/images/javascript.png" alt=""></p>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>背景是这样子的，首先有个一个表格，表格底部有一个统计金额的需求，而且表格的数据是可以搜索过滤的，所以统计金额的任务就交给前端来做啦。前端做的话也简单，用 <code>Array.prototype.reduce</code> 方法就可以搞定：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sum = data.reduce(<span class="function">(<span class="params">prev, curr</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> curr.money + prev</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>两行代码就搞定了，自测了一下，没什么问题，提交测试。</p>
+<a id="more"></a>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>但是，万万没想到啊，测试竟然给我提BUG了，大概意思就是在几千条数据的时候，统计的金额数据与数据库的统计数据差了几分钱。我脑中第一个想法就是 JavaScript 的小数精度问题，但是仔细想了一下，小数的精度问题只有在小数十多位后才会存在，所以这个想法瞬间就被否决了。于是，我陷入了沉思。。。</p>
+<p>思索了半天还是没有头绪，于是就 Google 了下小数精度的问题，找到了<a href="https://github.com/camsong/blog/issues/9" target="_blank" rel="noopener">这篇文章</a>，看到 <code>0.1+0.2=0.30000000000000004</code> 这里，我就瞬间明白了，JavaScript 的小数进度问题并不是在小数点后面十几位才有，一两位也有啊。所以，刚刚的问题就找到了。由于金额在数据库中是只保留2位小数，在数据量少的时候，JavaScript 的精度问题不至于影响最终的统计数据，但是在数据量大的时候，已经可以影响到数据的显示，也就是之前说的，差了几分钱的问题。</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>知道发生问题的原因，解决起来就好办了。由于我们的需求是金额保留2位小数，而且精度问题只会在数据量大的时候才会出现。所以，我的解决办法就是，每次遍历相加的时候，就去做一次进度处理，也就是每次相加后，保留2位小数，以防多次相加后，小数精度问题被放大。贴上修改后的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sum = data.reduce(<span class="function">(<span class="params">prev, curr</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> ret = (curr.money + prev).toFixed(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Number</span>(ret)</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实，JavaScript 存在小数精度问题我之前是了解的，但是了解的不是很全面，或者是之前没踩到这个坑，才会出现这个问题。究其根本，还是对 JavaScript 基础掌握得不够，在这方面，以后得多多加强。</p>
+
       
 
       

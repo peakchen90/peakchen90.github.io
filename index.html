@@ -53,7 +53,14 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="/images/javascript.png" alt=""></p>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>背景是这样子的，首先有个一个表格，表格底部有一个统计金额的需求，而且表格的数据是可以搜索过滤的，所以统计金额的任务就交给前端来做啦。前端做的话也简单，用 <code>Array.prototype.reduce</code> 方法就可以搞定：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sum = data.reduce(<span class="function">(<span class="params">prev, curr</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> curr.money + prev</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>两行代码就搞定了，自测了一下，没什么问题，提交测试。</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/04/27/JavaScript小数精度填坑/">阅读全文</a>
+          </p>
+        
       
 
       
