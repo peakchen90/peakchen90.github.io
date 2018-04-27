@@ -6,7 +6,7 @@
   <title>起航 | CHENの博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="WHY之前也搭建过静态博客，但是之前更多是侧重于博客这种形势，而不是在于博客的内容。所以，这是一个全新的博客，我将重新起航，在这里记录学习、总结的点滴。">
-<meta name="keywords" content="Blog">
+<meta name="keywords" content="blog">
 <meta property="og:type" content="article">
 <meta property="og:title" content="起航">
 <meta property="og:url" content="https://peakchen90.github.io/2018/04/26/起航/index.html">
@@ -81,8 +81,43 @@
     transition: none;
     resize: none;
   }
+  #comments pre {
+    position: relative;
+    margin: 1em 0;
+    border-radius: .2rem;
+    line-height: 1.4;
+    -webkit-overflow-scrolling: touch;
+    background-color: hsla(0,0%,93%,.5);
+    color: #37474f;
+    font-size: 85%;
+    direction: ltr;
+  }
+  #comments pre>code {
+    display: block;
+    margin: 0;
+    padding: 14px 12px;
+    background-color: transparent;
+    font-size: inherit;
+    box-shadow: none;
+    -webkit-box-decoration-break: none;
+    box-decoration-break: none;
+    overflow: auto;
+  }
+  #comments code {
+    border-radius: .2rem;
+    background-color: hsla(0,0%,93%,.5);
+    color: #37474f;
+    font-size: 85%;
+    direction: ltr;
+    word-break: break-word;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    margin: 0 .29412em;
+    padding: .07353em 0;
+    box-shadow: 0.29412em 0 0 hsla(0,0%,93%,.5), -0.29412em 0 0 hsla(0,0%,93%,.5);
+  }
 </style>
-<section id="comments">
+<div id="comments">
   <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
@@ -94,10 +129,11 @@
         appKey: 'r0Yr9THgKOl8aa1zR0pBlcFS',
         placeholder: 'leave something',
         path: window.location.pathname, 
-        avatar: 'retro' 
+        avatar: 'mm',
+        guest_info:['nick']
     });
   </script>
-</section>
+</div>
 
 </section>
         <aside id="sidebar">
@@ -132,6 +168,8 @@
 <script>
 	var _hmt = _hmt || [];
 	(function() {
+		var host = window.location.host
+		if(host.indexOf('localhost') === 0 || host.indexOf('127.0.0.1') === 0) return;
 		var hm = document.createElement("script");
 		hm.src = "https://hm.baidu.com/hm.js?495c1c38b2ff9417f6fe3991c20af37d";
 		var s = document.getElementsByTagName("script")[0]; 
