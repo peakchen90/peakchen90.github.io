@@ -6,7 +6,7 @@
   <title>Element-UI填坑——el-tabs与el-table嵌套使用的坑 | CHENの博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="前言昨天写了一篇 JavaScript 小数精度遇到的坑 (传送门)，今天又写一篇填坑心得，别问我为什么，坑就是这么多。不过话说回来，Element-UI 的 BUG 是真的有点多啊，特别是 1.x 版本，然而由于历史原因，我们项目还在用 1.x 版本😐😐😐。 发现问题现在开始进入正题，说下如何入坑的，有2个标签页，每个标签页下面有一个表格展示数据，可以切换顶部的标签来切换显示哪一个表格。">
-<meta name="keywords" content="Element-UI,踩坑">
+<meta name="keywords" content="踩坑,Element-UI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Element-UI填坑——el-tabs与el-table嵌套使用的坑">
 <meta property="og:url" content="https://peakchen90.github.io/2018/04/28/Element-UI填坑——el-tabs与el-table嵌套使用的坑/index.html">
@@ -14,7 +14,7 @@
 <meta property="og:description" content="前言昨天写了一篇 JavaScript 小数精度遇到的坑 (传送门)，今天又写一篇填坑心得，别问我为什么，坑就是这么多。不过话说回来，Element-UI 的 BUG 是真的有点多啊，特别是 1.x 版本，然而由于历史原因，我们项目还在用 1.x 版本😐😐😐。 发现问题现在开始进入正题，说下如何入坑的，有2个标签页，每个标签页下面有一个表格展示数据，可以切换顶部的标签来切换显示哪一个表格。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://peakchen90.github.io/images/pit.jpg">
-<meta property="og:updated_time" content="2018-04-28T08:47:39.555Z">
+<meta property="og:updated_time" content="2018-04-28T08:53:02.004Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Element-UI填坑——el-tabs与el-table嵌套使用的坑">
 <meta name="twitter:description" content="前言昨天写了一篇 JavaScript 小数精度遇到的坑 (传送门)，今天又写一篇填坑心得，别问我为什么，坑就是这么多。不过话说回来，Element-UI 的 BUG 是真的有点多啊，特别是 1.x 版本，然而由于历史原因，我们项目还在用 1.x 版本😐😐😐。 发现问题现在开始进入正题，说下如何入坑的，有2个标签页，每个标签页下面有一个表格展示数据，可以切换顶部的标签来切换显示哪一个表格。">
@@ -68,7 +68,7 @@
 <p>然后在将 my-table.js 引入作为 Vue 组件，将 <code>el-table</code> 替换成 <code>my-table</code>。到这里，已经成功在刚才的方法里打上了一个断点。</p>
 <p>切换到之前出 BUG 的场景，成功进入断点，单行调试。发现组件的高度为 0px，再仔细一看，竟然是 <code>.el-tab-pan</code> 这个元素 <code>display: none</code>，它的子元素肯定获取不到高度啊。而这个元素隐藏应该是 <code>el-tabs</code> 组件切换标签页造成的。很明显锅不在 <code>el-table</code>，而在 <code>el-tabs</code> 啊👀。</p>
 <p>那就看 <code>el-tabs</code> 组件的源码吧 (<a href="https://github.com/ElemeFE/element/blob/1.x/packages/tabs/src/tab-pane.vue" target="_blank" rel="noopener">源码传送门</a>)，看到 <code>.el-tab-pane</code> 这个元素的显隐是通过 <code>v-show=&quot;active&quot;</code> 控制的，而 <code>active</code> 是一个 Vue 的计算属性，就是判断当前的面板是否处于激活状态。到这里，我们终于知道了这BUG产生的原因了。</p>
-<h2 id="所以，然后呢？"><a href="#所以，然后呢？" class="headerlink" title="所以，然后呢？"></a>所以，然后呢？</h2><p>Element-UI 的 <code>el-tabs</code> 组件是通过 <code>v-show</code> 来控制标签页的显隐，这非常简单暴力，但同时也导致了我们刚开始说的计算高度失效这个问题。所以，我们可以就让所有的标签页下的内容都“显示”出来，然后通过 <code>z-index</code> 来控制显隐，注意背景不要透明。直接改写 <code>el-tab-pane</code> 组件，代码如下：</p>
+<h2 id="所以，然后呢？"><a href="#所以，然后呢？" class="headerlink" title="所以，然后呢？"></a>所以，然后呢？</h2><p>Element-UI 的 <code>el-tabs</code> 组件是通过 <code>v-show</code> 来控制标签页的显隐，这非常简单暴力，但同时也导致了我们刚开始说的计算高度失效这个问题。所以，我们可以就让所有的标签页下的内容都“显示”出来，然后通过 <code>z-index</code> 来控制显隐，注意背景不要透明（当然也有其他实现方式，只要能获取到表格的真实高度就行）。直接改写 <code>el-tab-pane</code> 组件，代码如下：</p>
 <p><strong>template 部分：</strong></p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"el-tab-pane"</span> <span class="attr">:style</span>=<span class="string">"paneStyle"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>这里把 v-show 换成绑定一个动态样式，用于动态设置 z-index</p>
