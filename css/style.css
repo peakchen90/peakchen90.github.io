@@ -173,7 +173,7 @@ body {
 .outer:after {
   clear: both;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 858px) {
   #main {
     width: 768px;
     padding-right: 50px;
@@ -428,9 +428,6 @@ a.article-title:hover {
 }
 .article-entry a {
   color: #991a1a;
-  text-decoration: none;
-}
-.article-entry a:hover {
   text-decoration: underline;
 }
 .article-entry ul,
@@ -597,7 +594,7 @@ a.article-title:hover {
 #article-nav:after {
   clear: both;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 858px) {
   #article-nav {
     margin: 50px 0;
   }
@@ -630,20 +627,20 @@ a.article-title:hover {
 .article-nav-link-wrap:hover {
   color: #555;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 858px) {
   .article-nav-link-wrap {
     width: 50%;
     margin-top: 0;
   }
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 858px) {
   #article-nav-newer {
     float: left;
     text-align: right;
     padding-right: 20px;
   }
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 858px) {
   #article-nav-older {
     float: right;
     text-align: left;
@@ -755,14 +752,14 @@ a.article-title:hover {
   -moz-column-gap: 10px;
   column-gap: 10px;
 }
-@media screen and (min-width: 480px) and (max-width: 767px) {
+@media screen and (min-width: 480px) and (max-width: 857px) {
   .archives {
     -webkit-column-count: 2;
     -moz-column-count: 2;
     column-count: 2;
   }
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 858px) {
   .archives {
     -webkit-column-count: 3;
     -moz-column-count: 3;
@@ -858,7 +855,7 @@ a.article-title:hover {
   color: #999;
   padding: 30px 20px;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 858px) {
   #footer {
     width: 768px;
     margin: 0 auto;
@@ -1029,7 +1026,7 @@ pre .javascript .function {
     color: #fff;
   }
 }
-@media screen and (min-width: 480px) and (max-width: 767px) {
+@media screen and (min-width: 480px) and (max-width: 857px) {
   #mobile-nav {
     position: absolute;
     top: 0;
@@ -1040,7 +1037,7 @@ pre .javascript .function {
     z-index: 999;
   }
 }
-@media screen and (min-width: 480px) and (max-width: 767px) {
+@media screen and (min-width: 480px) and (max-width: 857px) {
   .mobile-nav-link {
     float: left;
     color: #fff;
@@ -1056,7 +1053,7 @@ pre .javascript .function {
 #sidebar {
   display: none;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 858px) {
   #sidebar {
     display: block;
     position: fixed;

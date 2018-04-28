@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Element-UI填坑——el-tabs与el-table嵌套使用的坑 | CHENの博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言昨天写了一篇 JavaScript 小数精度遇到的坑 (传送门)，今天又写一篇填坑心得，别问我为什么，坑就是这么多。不过话说回来，Element-UI 的 BUG 是真的有点多啊，特别是 1.x 版本，然而由于历史原因，我们项目还在用 1.x 版本😐😐😐。 发现问题现在开始进入正题，说下如何入坑的，有2个标签页，每个标签页下面有一个表格展示数据，可以切换顶部的标签来切换显示哪一个表格。">
+<meta name="keywords" content="Element-UI,踩坑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Element-UI填坑——el-tabs与el-table嵌套使用的坑">
+<meta property="og:url" content="https://peakchen90.github.io/2018/04/28/Element-UI填坑——el-tabs与el-table嵌套使用的坑/index.html">
+<meta property="og:site_name" content="CHENの博客">
+<meta property="og:description" content="前言昨天写了一篇 JavaScript 小数精度遇到的坑 (传送门)，今天又写一篇填坑心得，别问我为什么，坑就是这么多。不过话说回来，Element-UI 的 BUG 是真的有点多啊，特别是 1.x 版本，然而由于历史原因，我们项目还在用 1.x 版本😐😐😐。 发现问题现在开始进入正题，说下如何入坑的，有2个标签页，每个标签页下面有一个表格展示数据，可以切换顶部的标签来切换显示哪一个表格。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://peakchen90.github.io/images/pit.jpg">
+<meta property="og:updated_time" content="2018-04-28T08:47:39.555Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Element-UI填坑——el-tabs与el-table嵌套使用的坑">
+<meta name="twitter:description" content="前言昨天写了一篇 JavaScript 小数精度遇到的坑 (传送门)，今天又写一篇填坑心得，别问我为什么，坑就是这么多。不过话说回来，Element-UI 的 BUG 是真的有点多啊，特别是 1.x 版本，然而由于历史原因，我们项目还在用 1.x 版本😐😐😐。 发现问题现在开始进入正题，说下如何入坑的，有2个标签页，每个标签页下面有一个表格展示数据，可以切换顶部的标签来切换显示哪一个表格。">
+<meta name="twitter:image" content="https://peakchen90.github.io/images/pit.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="CHENの博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/logo.jpg">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-Element-UI填坑——el-tabs与el-table嵌套使用的坑" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Element-UI填坑——el-tabs与el-table嵌套使用的坑
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/04/28/Element-UI填坑——el-tabs与el-table嵌套使用的坑/" class="article-date">
+  <time datetime="2018-04-28T02:08:50.000Z" itemprop="datePublished">2018-04-28</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/pit.jpg" alt=""></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>昨天写了一篇 JavaScript 小数精度遇到的坑 (<a href="/2018/04/27/JavaScript小数精度填坑/">传送门</a>)，今天又写一篇填坑心得，别问我为什么，坑就是这么多。不过话说回来，<a href="http://element.eleme.io/" target="_blank" rel="noopener">Element-UI</a> 的 BUG 是真的有点多啊，特别是 1.x 版本，然而由于历史原因，我们项目还在用 1.x 版本😐😐😐。</p>
+<h2 id="发现问题"><a href="#发现问题" class="headerlink" title="发现问题"></a>发现问题</h2><p>现在开始进入正题，说下如何入坑的，有2个标签页，每个标签页下面有一个表格展示数据，可以切换顶部的标签来切换显示哪一个表格。用 <code>el-tabs</code> 和 <code>el-table</code> 两个组件嵌套就可以搞定，没什么问题😊。可是测试的时候发现一个问题，当重新加载数据时，隐藏的那个标签页下面的表格 <code>body</code> 部分高度不知为啥消失了。用调试工具查看元素时，发现表格 <code>.el-table__body-wrapper</code> 这个元素有个内联样式 <code>height: 1px</code>，这一看就是 Element-UI 框架计算出来的高度，于是就向这个方向去排查。</p>
+<a id="more"></a>
+<h2 id="如何解决？"><a href="#如何解决？" class="headerlink" title="如何解决？"></a>如何解决？</h2><p>既然有了方向，那么该如何解决呢？当然是去看源码了，我是自己在本地的 node_modules 目录下面看的，就在 <code>/node_modules/element-ui/packages/table</code> 这个文件夹下面，然后看 <code>index.js</code> 里面引用的是 <code>&#39;src/table&#39;</code>，那就从 <code>src/table.vue</code> (<a href="https://github.com/ElemeFE/element/blob/1.x/packages/table/src/table.vue" target="_blank" rel="noopener">源码传送门</a>) 这个组件开始看吧。</p>
+<p>由于之前已经发现了 <code>.el-table__body-wrapper</code> 这个元素的内联样式计算有问题，所以直接找到 <code>&lt;template&gt;</code> 的<a href="https://github.com/ElemeFE/element/blob/1.x/packages/table/src/table.vue#L22" target="_blank" rel="noopener">这个元素</a>，发现果然有个动态绑定的样式 <code>bodyHeight</code>，这是一个 <code>Vue</code> 的计算属性 <code>bodyHeight</code> (<a href="https://github.com/ElemeFE/element/blob/1.x/packages/table/src/table.vue#L336" target="_blank" rel="noopener">源码传送门</a>)。简单的分析之后，发现高度的计算都与 <code>this.layout</code> 这个对象相关，于是，我将目标转到 <code>this.layout</code> 上面。</p>
+<p>继续分析 <code>this.layout</code>，这是由 <code>TableLayout</code> 类 (<a href="https://github.com/ElemeFE/element/blob/1.x/packages/table/src/table-layout.js" target="_blank" rel="noopener">源码传送门</a>) 实例化出来的一个对象。再结合之前计算高度的地方引用了 <code>this.layout.bodyHeight</code>，所以直接搜索 <code>bodyHeight</code>，发现都在这个类的 <code>updateHeight</code> 方法里。大致看了下这个方法的代码，就是通过获取一些元素的高度，进行一些计算的操作（说了跟没说一样😏），反正看不出来有什么问题。</p>
+<h2 id="所以，该怎么办？"><a href="#所以，该怎么办？" class="headerlink" title="所以，该怎么办？"></a>所以，该怎么办？</h2><p>好像碰到瓶颈了，该怎么办？我的第一个想法就是断点调试呗，这是在 node_modules 目录下的，怎么断点？我的解决办法就是继承 <code>el-table</code> 组件，然后在 Vue 生命周期的 <code>created</code> 方法里面覆盖 <code>this.layout</code> 的值，代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// my-table.js</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> ElTable <span class="keyword">from</span> <span class="string">'element-ui/lib/table'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里把 table-layout.js 复制过来，在 updateHeight 里打个断点</span></span><br><span class="line"><span class="comment">// 不能继承这个类，会报错：https://github.com/babel/babel/issues/4269</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TableLayout</span> </span>&#123;</span><br><span class="line">    updateHeight() &#123;</span><br><span class="line">        <span class="keyword">debugger</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    extends: ElTable,</span><br><span class="line">    created() &#123;</span><br><span class="line">        <span class="comment">// this.layout 创建方法跟它之前一致</span></span><br><span class="line">        <span class="comment">// 因为 store 之前已经绑定在 data 上了，所以现在只需引用 this.store 就行了 </span></span><br><span class="line">        <span class="keyword">this</span>.layout = <span class="keyword">new</span> TableLayout(&#123;</span><br><span class="line">           store: <span class="keyword">this</span>.store,</span><br><span class="line">           table: <span class="keyword">this</span>,</span><br><span class="line">           fit: <span class="keyword">this</span>.fit,</span><br><span class="line">           showHeader: <span class="keyword">this</span>.showHeader</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在将 my-table.js 引入作为 Vue 组件，将 <code>el-table</code> 替换成 <code>my-table</code>。到这里，已经成功在刚才的方法里打上了一个断点。</p>
+<p>切换到之前出 BUG 的场景，成功进入断点，单行调试。发现组件的高度为 0px，再仔细一看，竟然是 <code>.el-tab-pan</code> 这个元素 <code>display: none</code>，它的子元素肯定获取不到高度啊。而这个元素隐藏应该是 <code>el-tabs</code> 组件切换标签页造成的。很明显锅不在 <code>el-table</code>，而在 <code>el-tabs</code> 啊👀。</p>
+<p>那就看 <code>el-tabs</code> 组件的源码吧 (<a href="https://github.com/ElemeFE/element/blob/1.x/packages/tabs/src/tab-pane.vue" target="_blank" rel="noopener">源码传送门</a>)，看到 <code>.el-tab-pane</code> 这个元素的显隐是通过 <code>v-show=&quot;active&quot;</code> 控制的，而 <code>active</code> 是一个 Vue 的计算属性，就是判断当前的面板是否处于激活状态。到这里，我们终于知道了这BUG产生的原因了。</p>
+<h2 id="所以，然后呢？"><a href="#所以，然后呢？" class="headerlink" title="所以，然后呢？"></a>所以，然后呢？</h2><p>Element-UI 的 <code>el-tabs</code> 组件是通过 <code>v-show</code> 来控制标签页的显隐，这非常简单暴力，但同时也导致了我们刚开始说的计算高度失效这个问题。所以，我们可以就让所有的标签页下的内容都“显示”出来，然后通过 <code>z-index</code> 来控制显隐，注意背景不要透明。直接改写 <code>el-tab-pane</code> 组件，代码如下：</p>
+<p><strong>template 部分：</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"el-tab-pane"</span> <span class="attr">:style</span>=<span class="string">"paneStyle"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这里把 v-show 换成绑定一个动态样式，用于动态设置 z-index</p>
+<p><strong> script 部分：</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    name: <span class="string">'ElTabPane'</span>,</span><br><span class="line"></span><br><span class="line">    componentName: <span class="string">'ElTabPane'</span>,</span><br><span class="line"></span><br><span class="line">    props: &#123;</span><br><span class="line">        label: <span class="built_in">String</span>,</span><br><span class="line">        labelContent: <span class="built_in">Function</span>,</span><br><span class="line">        name: <span class="built_in">String</span>,</span><br><span class="line">        closable: <span class="built_in">Boolean</span>,</span><br><span class="line">        disabled: <span class="built_in">Boolean</span>,</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    data() &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            index: <span class="literal">null</span>,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    computed: &#123;</span><br><span class="line">        isClosable() &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.closable || <span class="keyword">this</span>.$parent.closable;</span><br><span class="line">        &#125;,</span><br><span class="line">        active() &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.$parent.currentName === (<span class="keyword">this</span>.name || <span class="keyword">this</span>.index);</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">// 设置面板的 z-index</span></span><br><span class="line">        paneStyle() &#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;</span><br><span class="line">                zIndex: <span class="keyword">this</span>.active ? <span class="number">1</span> : <span class="number">0</span>,</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    mounted() &#123;</span><br><span class="line">        <span class="keyword">this</span>.$parent.addPanes(<span class="keyword">this</span>);</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    destroyed() &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.$el &amp;&amp; <span class="keyword">this</span>.$el.parentNode) &#123;</span><br><span class="line">            <span class="keyword">this</span>.$el.parentNode.removeChild(<span class="keyword">this</span>.$el);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.$parent.removePanes(<span class="keyword">this</span>);</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    watch: &#123;</span><br><span class="line">        label() &#123;</span><br><span class="line">            <span class="keyword">this</span>.$parent.$forceUpdate();</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里在计算属性这里添加了一个 <code>paneStyle</code>，用于动态设置面板的样式，激活状态 z-index 设置为1，其他情况设置为0，相当于激活状态的面板总是在顶层。</p>
+<p><strong>style 部分 (scss)</strong></p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.el-tabs</span> <span class="selector-class">.el-tabs__content</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="selector-class">.el-tab-pane</span> &#123;</span><br><span class="line">        <span class="attribute">position</span>: absolute;</span><br><span class="line">        <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">        <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">        <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">        <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里由于 <code>.el-tabs__content</code> 之前被重写为 flex 布局，所以这里重新改成 block，然后把 <code>.el-tab-pane</code> 改成绝对定位，收工👌。别忘了把 <code>el-tab-pane</code> 换成重写之后的。</p>
+<h2 id="来点感想"><a href="#来点感想" class="headerlink" title="来点感想"></a>来点感想</h2><p>首先，element-ui的坑有点多，相信每个框架都有各种坑，我们踩坑的过程其实就是给自己涨经验。所以，不要怕踩坑。还有一点我想说的就是，不要怕看源码，源码没有想象的那么可怕。多看看源码可以对自己的提升肯定是有好处的（好像又是一句废话😏）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">　　 ┏┓　 ┏┓+ +</span><br><span class="line">　　┏┛┻━━━┛┻┓ + +</span><br><span class="line">　　┃　　　　　　┃ 　</span><br><span class="line">　　┃　　　━　　 ┃ ++ + + +</span><br><span class="line">　 ████━████  ┃+</span><br><span class="line">　　┃　　　　　　　┃ +</span><br><span class="line">　　┃　　　┻　　　┃</span><br><span class="line">　　┃　　　　　　┃ + +</span><br><span class="line">　　┗━┓　　　┏━┛</span><br><span class="line">　　　 ┃　　　┃　　　　　　　　　　　</span><br><span class="line">　　　 ┃　　　┃ + + + +</span><br><span class="line">　　　 ┃　　　┃　　　　Code is far away from bug with the animal protecting　　　　　　　</span><br><span class="line">　　　 ┃　　　┃ + 　　　　神兽保佑,代码无bug　　</span><br><span class="line">　　　 ┃　　　┃</span><br><span class="line">　　　 ┃　　　┃　　+　　　　　　　　　</span><br><span class="line">　　　 ┃　 　 ┗━━━┓ + +</span><br><span class="line">　　　 ┃ 　　　　   ┣┓</span><br><span class="line">　　　 ┃ 　　　　　 ┏┛</span><br><span class="line">　　　 ┗┓┓┏━┳┓┏┛ + + + +</span><br><span class="line">　　　  ┃┫┫ ┃┫┫</span><br><span class="line">　　　  ┗┻┛ ┗┻┛+ + + +</span><br></pre></td></tr></table></figure>
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/27/JavaScript小数精度填坑/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JavaScript小数精度填坑</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div id="comments">
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    new Valine({
+        el: '#comments' ,
+        notify: false, 
+        verify: false, 
+        appId: '5Dw1gz59PawojUDlQTAWvCv3-gzGzoHsz',
+        appKey: 'r0Yr9THgKOl8aa1zR0pBlcFS',
+        placeholder: 'leave something',
+        path: window.location.pathname, 
+        avatar: 'mm',
+        guest_info:['nick']
+    });
+  </script>
+</div>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/peakchen90" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 Jerry Chen 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+<!-- 百度统计 -->
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+		var host = window.location.host
+		if(host.indexOf('localhost') === 0 || host.indexOf('127.0.0.1') === 0) return;
+		var hm = document.createElement("script");
+		hm.src = "https://hm.baidu.com/hm.js?495c1c38b2ff9417f6fe3991c20af37d";
+		var s = document.getElementsByTagName("script")[0]; 
+		s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+		
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/peakchen90" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

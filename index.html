@@ -30,6 +30,48 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Element-UI填坑——el-tabs与el-table嵌套使用的坑" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/28/Element-UI填坑——el-tabs与el-table嵌套使用的坑/">Element-UI填坑——el-tabs与el-table嵌套使用的坑</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/04/28/Element-UI填坑——el-tabs与el-table嵌套使用的坑/" class="article-date">
+  <time datetime="2018-04-28T02:08:50.000Z" itemprop="datePublished">2018-04-28</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/pit.jpg" alt=""></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>昨天写了一篇 JavaScript 小数精度遇到的坑 (<a href="/2018/04/27/JavaScript小数精度填坑/">传送门</a>)，今天又写一篇填坑心得，别问我为什么，坑就是这么多。不过话说回来，<a href="http://element.eleme.io/" target="_blank" rel="noopener">Element-UI</a> 的 BUG 是真的有点多啊，特别是 1.x 版本，然而由于历史原因，我们项目还在用 1.x 版本😐😐😐。</p>
+<h2 id="发现问题"><a href="#发现问题" class="headerlink" title="发现问题"></a>发现问题</h2><p>现在开始进入正题，说下如何入坑的，有2个标签页，每个标签页下面有一个表格展示数据，可以切换顶部的标签来切换显示哪一个表格。用 <code>el-tabs</code> 和 <code>el-table</code> 两个组件嵌套就可以搞定，没什么问题😊。可是测试的时候发现一个问题，当重新加载数据时，隐藏的那个标签页下面的表格 <code>body</code> 部分高度不知为啥消失了。用调试工具查看元素时，发现表格 <code>.el-table__body-wrapper</code> 这个元素有个内联样式 <code>height: 1px</code>，这一看就是 Element-UI 框架计算出来的高度，于是就向这个方向去排查。</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/04/28/Element-UI填坑——el-tabs与el-table嵌套使用的坑/">阅读全文</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-JavaScript小数精度填坑" class="article article-type-post" itemscope itemprop="blogPost">
   
   <div class="article-inner">
