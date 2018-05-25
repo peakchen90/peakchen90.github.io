@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   
   <title>Element-UI填坑——el-tabs与el-table嵌套使用的坑 | CHENの博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="前言昨天写了一篇 JavaScript 小数精度遇到的坑 (传送门)，今天又写一篇填坑心得，别问我为什么，坑就是这么多。不过话说回来，Element-UI 的 BUG 是真的有点多啊，特别是 1.x 版本，然而由于历史原因，我们项目还在用 1.x 版本😐😐😐。 发现问题现在开始进入正题，说下如何入坑的，有2个标签页，每个标签页下面有一个表格展示数据，可以切换顶部的标签来切换显示哪一个表格。">
-<meta name="keywords" content="踩坑,Element-UI">
+<meta name="keywords" content="Element-UI,踩坑">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Element-UI填坑——el-tabs与el-table嵌套使用的坑">
 <meta property="og:url" content="https://peakchen90.github.io/2018/04/28/Element-UI填坑——el-tabs与el-table嵌套使用的坑/index.html">
@@ -14,7 +14,7 @@
 <meta property="og:description" content="前言昨天写了一篇 JavaScript 小数精度遇到的坑 (传送门)，今天又写一篇填坑心得，别问我为什么，坑就是这么多。不过话说回来，Element-UI 的 BUG 是真的有点多啊，特别是 1.x 版本，然而由于历史原因，我们项目还在用 1.x 版本😐😐😐。 发现问题现在开始进入正题，说下如何入坑的，有2个标签页，每个标签页下面有一个表格展示数据，可以切换顶部的标签来切换显示哪一个表格。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://peakchen90.github.io/images/pit.jpg">
-<meta property="og:updated_time" content="2018-04-28T08:53:02.004Z">
+<meta property="og:updated_time" content="2018-05-22T03:21:33.382Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Element-UI填坑——el-tabs与el-table嵌套使用的坑">
 <meta name="twitter:description" content="前言昨天写了一篇 JavaScript 小数精度遇到的坑 (传送门)，今天又写一篇填坑心得，别问我为什么，坑就是这么多。不过话说回来，Element-UI 的 BUG 是真的有点多啊，特别是 1.x 版本，然而由于历史原因，我们项目还在用 1.x 版本😐😐😐。 发现问题现在开始进入正题，说下如何入坑的，有2个标签页，每个标签页下面有一个表格展示数据，可以切换顶部的标签来切换显示哪一个表格。">
@@ -89,6 +89,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/05/22/Vue单元测试——Jest入门/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Vue单元测试——Jest入门
+        
+      </div>
+    </a>
   
   
     <a href="/2018/04/27/JavaScript小数精度填坑/" id="article-nav-older" class="article-nav-link-wrap">

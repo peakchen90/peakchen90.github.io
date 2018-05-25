@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Vue单元测试——Jest入门 | CHENの博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Jest 是什么？Jest 是 Facebook 开源的一个测试框架，官网地址：https://facebook.github.io/jest/。Jest 集成了测试运行时、测试断言库、测试覆盖率等测试必要的工具和环境，可以做到开箱即用。Jest 相比 Mocha、Jasmine的优势就是配置少、开箱即用的一个测试框架。">
+<meta name="keywords" content="Vue,Jest">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue单元测试——Jest入门">
+<meta property="og:url" content="https://peakchen90.github.io/2018/05/22/Vue单元测试——Jest入门/index.html">
+<meta property="og:site_name" content="CHENの博客">
+<meta property="og:description" content="Jest 是什么？Jest 是 Facebook 开源的一个测试框架，官网地址：https://facebook.github.io/jest/。Jest 集成了测试运行时、测试断言库、测试覆盖率等测试必要的工具和环境，可以做到开箱即用。Jest 相比 Mocha、Jasmine的优势就是配置少、开箱即用的一个测试框架。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://peakchen90.github.io/images/vue_jest.png">
+<meta property="og:image" content="https://peakchen90.github.io/images/jest_test_demo1.png">
+<meta property="og:updated_time" content="2018-05-25T08:31:55.465Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue单元测试——Jest入门">
+<meta name="twitter:description" content="Jest 是什么？Jest 是 Facebook 开源的一个测试框架，官网地址：https://facebook.github.io/jest/。Jest 集成了测试运行时、测试断言库、测试覆盖率等测试必要的工具和环境，可以做到开箱即用。Jest 相比 Mocha、Jasmine的优势就是配置少、开箱即用的一个测试框架。">
+<meta name="twitter:image" content="https://peakchen90.github.io/images/vue_jest.png">
+  
+    <link rel="alternative" href="/atom.xml" title="CHENの博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/logo.jpg">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-Vue单元测试——Jest入门" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Vue单元测试——Jest入门
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/05/22/Vue单元测试——Jest入门/" class="article-date">
+  <time datetime="2018-05-22T03:17:36.000Z" itemprop="datePublished">2018-05-22</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/vue_jest.png" alt=""></p>
+<h2 id="Jest-是什么？"><a href="#Jest-是什么？" class="headerlink" title="Jest 是什么？"></a>Jest 是什么？</h2><p>Jest 是 Facebook 开源的一个测试框架，官网地址：<a href="https://facebook.github.io/jest/" target="_blank" rel="noopener">https://facebook.github.io/jest/</a>。Jest 集成了测试运行时、测试断言库、测试覆盖率等测试必要的工具和环境，可以做到开箱即用。Jest 相比 Mocha、Jasmine的优势就是配置少、开箱即用的一个测试框架。</p>
+<a id="more"></a>
+<h2 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h2><ol>
+<li>安装Jest 以及一些依赖</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install jest jest-serializer-vue babel-jest vue-jest @vue/<span class="built_in">test</span>-utils --save-dev</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>配置 package.json</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">        <span class="attr">"test"</span>: <span class="string">"jest --config test/unit/jest.config.js"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>test</code> 脚本表示：执行 Jest, 且 Jest 的配置文件在 test/unit/jest.config.js 里配置</p>
+<ol start="3">
+<li>Jest 配置文件</li>
+</ol>
+<blockquote>
+<p>虽然 Jest 可以零配置使用，但是我们还是要搞清楚这些常用的配置是什么意思，以便可以针对自己的项目进行个性化设置</p>
+</blockquote>
+<p><strong>test/unit/jest.config.js</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * jest 配置</span></span><br><span class="line"><span class="comment"> * @see https://facebook.github.io/jest/docs/zh-Hans/configuration.html</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// https://facebook.github.io/jest/docs/zh-Hans/configuration.html#rootdir-string</span></span><br><span class="line">  <span class="comment">// 项目根目录，其他路径可以引用 '&lt;rootDir&gt;' 作为基本路径</span></span><br><span class="line">  rootDir: path.resolve(__dirname, <span class="string">'../../'</span>),</span><br><span class="line">  <span class="comment">// 匹配到的文件将执行测试</span></span><br><span class="line">  testRegex: <span class="string">'/test/.*?\\.(test|spec)\\.jsx?$'</span>,</span><br><span class="line">  <span class="comment">// 类似 webpack 的 resolve.extensions</span></span><br><span class="line">  moduleFileExtensions: [</span><br><span class="line">    <span class="string">'js'</span>,</span><br><span class="line">    <span class="string">'json'</span>,</span><br><span class="line">    <span class="string">'vue'</span>,</span><br><span class="line">  ],</span><br><span class="line">  <span class="comment">// 模块名映射，类似 webpack 的 类似 webpack 的 resolve.alias</span></span><br><span class="line">  moduleNameMapper: &#123;</span><br><span class="line">    <span class="string">'^src/(.*)$'</span>: <span class="string">'&lt;rootDir&gt;/src/$1'</span>,</span><br><span class="line">    <span class="string">'^@/(.*)$'</span>: <span class="string">'&lt;rootDir&gt;/src/components/$1'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 指定相应的模块（提供一个同步方法）处理相应格式的文件</span></span><br><span class="line">  transform: &#123;</span><br><span class="line">    <span class="string">'^.+\\.js$'</span>: <span class="string">'&lt;rootDir&gt;/node_modules/babel-jest'</span>,</span><br><span class="line">    <span class="string">'.*\\.(vue)$'</span>: <span class="string">'&lt;rootDir&gt;/node_modules/vue-jest'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// https://facebook.github.io/jest/docs/zh-Hans/tutorial-react-native.html#snapshot-test    </span></span><br><span class="line">  <span class="comment">// 快照测试 vue模块</span></span><br><span class="line">  snapshotSerializers: [<span class="string">'&lt;rootDir&gt;/node_modules/jest-serializer-vue'</span>],</span><br><span class="line">  <span class="comment">// 每次测试前执行，一般用于执行区分其他环境的代码</span></span><br><span class="line">  setupFiles: [<span class="string">'&lt;rootDir&gt;/test/unit/setup'</span>],</span><br><span class="line">  <span class="comment">// 是否搜集覆盖率信息</span></span><br><span class="line">  collectCoverage: <span class="literal">false</span>,</span><br><span class="line">  <span class="comment">// Jest输出覆盖信息文件的目录</span></span><br><span class="line">  coverageDirectory: <span class="string">'&lt;rootDir&gt;/test/unit/coverage'</span>,</span><br><span class="line">  <span class="comment">// 匹配的文件将收集覆盖率</span></span><br><span class="line">  collectCoverageFrom: [</span><br><span class="line">    <span class="string">'src/**/*.&#123;js,vue&#125;'</span>,</span><br><span class="line">    <span class="string">'!src/main.js'</span>,</span><br><span class="line">    <span class="string">'!src/router/index.js'</span>,</span><br><span class="line">    <span class="string">'!**/node_modules/**'</span>,</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>babel 配置以及依赖安装</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install babel-preset-env babel-preset-stage-2 --save-dev</span><br></pre></td></tr></table></figure>
+<p><strong>.babelrc</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"env"</span>: &#123;</span><br><span class="line">        <span class="attr">"test"</span>: &#123;</span><br><span class="line">            <span class="attr">"presets"</span>: [<span class="string">"env"</span>, <span class="string">"stage-2"</span>]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>Eslint 配置</li>
+</ol>
+<p>如果在项目中使用了 Eslint, 又想把测试代码加入到 Eslint 的检测范围内，此时发现测试脚本 Eslint 会报错，比如全局变量 <code>jest</code>、’test’、’expect’ 等提示未定义。此时，我们可以把测试脚本的 Eslint 进项个性化设置，在 <code>test/unit</code> 目录下建一个文件 <code>.eslintrc</code>.</p>
+<p><strong>test/unit/.eslintrc</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"env"</span>: &#123;</span><br><span class="line">        <span class="attr">"jest"</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"rules"</span>: &#123;</span><br><span class="line">        // ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>编写测试脚本</li>
+</ol>
+<p>1) 先写一个方法 <code>sum.js</code>, 因为我们配置了 <code>babel-jest</code> 处理 js 文件，所以我们可以直接写 ES6 语法：</p>
+<p><strong>src/sum.js</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2) 编写测试脚本，命名规则为 [name].spec.js 或者 [name].spec.js。我们可以在配置中配置 <code>testRegex</code> 字段来指定 Jest 扫描哪些为测试脚本。所以，我们在新建一个文件 <code>test/unit/specs/sum.spec.js</code></p>
+<p><strong>test/unit/specs/sum.spec.js</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sum <span class="keyword">from</span> <span class="string">'src/sum.js'</span></span><br><span class="line"></span><br><span class="line">test(<span class="string">'sum(1, 2) equal 3'</span>, () =&gt; &#123;</span><br><span class="line">    expect(sum(<span class="number">1</span>, <span class="number">2</span>)).toBe(<span class="number">3</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>3) 运行测试命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+<p>可以看到输出结果：</p>
+<p><img style="margin-left: 0; margin-top: -15px;" src="/images/jest_test_demo1.png"></p>
+<h2 id="Vue-测试"><a href="#Vue-测试" class="headerlink" title="Vue 测试"></a>Vue 测试</h2><p>我们可以通过 Vue 官方提供的测试工具 <a href="https://vue-test-utils.vuejs.org/" target="_blank" rel="noopener">@vue/test-utils</a> 来测试 Vue 文件。</p>
+<ol>
+<li>创建一个 Vue 文件</li>
+</ol>
+<p><strong>src/Demo.vue</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">v-show</span>=<span class="string">"show"</span>&gt;</span>测试按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="undefined">        data() &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">                show: <span class="literal">false</span></span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>创建 Vue 测试脚本</li>
+</ol>
+<p><strong>test/unit/specs/Demo.spec.js</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; shallowMount &#125; <span class="keyword">from</span> <span class="string">'@vue/test-utils'</span>;</span><br><span class="line"><span class="keyword">import</span> Demo <span class="keyword">from</span> <span class="string">'src/Demo.vue'</span>;</span><br><span class="line"></span><br><span class="line">describe(<span class="string">'Demo.spec.js'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> wrapper;</span><br><span class="line">    beforeEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        wrapper = shallowMount(Demo);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    test(<span class="string">'test show button'</span>, () =&gt; &#123;</span><br><span class="line">        wrapper.setData(&#123; <span class="attr">show</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">        expect(wrapper.find(<span class="string">'button'</span>).isVisible()).toBe(<span class="literal">true</span>);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    test(<span class="string">'test hide button'</span>, () =&gt; &#123;</span><br><span class="line">        wrapper.setData(&#123; <span class="attr">show</span>: <span class="literal">false</span> &#125;);</span><br><span class="line">        expect(wrapper.find(<span class="string">'button'</span>).isVisible()).toBe(<span class="literal">false</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>解释一下：</strong></p>
+<ol>
+<li><code>shallowMount</code> 是 @vue/test-utils 提供的一个方法，该方法挂载组件并返回一个包裹器对象。包裹器对象暴露了一些方便测试的方法。也可以使用 <code>mount</code> 方法实现相同的功能，此方法与 <code>mount</code> 的不同之处在于，它会保留子组件，只关注当前组件。</li>
+<li><code>describe</code> 是 Jest 的一个全局方法，<a href="https://facebook.github.io/jest/docs/en/api.html#describename-fn" target="_blank" rel="noopener">API 地址</a>，大概意思就是提供一个分组。</li>
+<li><code>beforeEach</code> 是 Jest 的一个全局方法，<a href="https://facebook.github.io/jest/docs/en/api.html#beforeeachfn-timeout" target="_blank" rel="noopener">API 地址</a>，该方法会在每个 <code>test</code> 方法执行前执行。此处的意思是：在每个 <code>test</code> 方法执行前，创建一个全新的包裹器 <code>wrapper</code>。</li>
+<li><code>wrapper.setData</code> 方法，是指设置 Vue 的 data 属性值，类似的还有 <code>wrapper.setMethods</code>、<code>wrapper.setProps</code>等。</li>
+<li><code>wrapper.find</code> 方法，是指查找此 Vue 组件中，标签名为 <code>button</code> 的第一个元素。类似的还有 <code>wrapper.findAll</code>等。</li>
+<li>@vue/test-utils 提供了一系列常用的方法和环境能让我们快速上手 Vue 的单元测试，它里面的功能在本文中只展示了冰山一角，还有一些诸如模拟鼠标和键盘操作的强大方法。想要详细的 API 可以直接去 <a href="https://vue-test-utils.vuejs.org/api/" target="_blank" rel="noopener">查看 API</a>。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>单元测试是在我学习软件工程的时候常常听到的一个词，但是当我开发业务的时候，并没有把单元测试用起来，因为我觉得开发完成之后，还有测试帮我们测，我们不需要花费这么多时间自己测。后来逐渐的开发过程中，我发现一个问题，就是有的公共方法在某些特殊场景下会出现 BUG。所以，我觉得单元测试在我们业务开发的时候还是有必要的。我觉得所有的公共方法，或者公共组件，一定要通过单元测试。而普通的业务逻辑，我倒是觉得没有太多的场景要使用单元测试，一些复杂的场景也可以使用。以上是我自己在开发学习过程中的一些总结和感悟，如有错误之处，还望指出~</p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/28/Element-UI填坑——el-tabs与el-table嵌套使用的坑/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Element-UI填坑——el-tabs与el-table嵌套使用的坑</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div id="comments">
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    new Valine({
+        el: '#comments' ,
+        notify: false, 
+        verify: false, 
+        appId: '5Dw1gz59PawojUDlQTAWvCv3-gzGzoHsz',
+        appKey: 'r0Yr9THgKOl8aa1zR0pBlcFS',
+        placeholder: 'leave something',
+        path: window.location.pathname, 
+        avatar: 'mm',
+        guest_info:['nick']
+    });
+  </script>
+</div>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/peakchen90" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 Jerry Chen 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+<!-- 百度统计 -->
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+		var host = window.location.host
+		if(host.indexOf('localhost') === 0 || host.indexOf('127.0.0.1') === 0) return;
+		var hm = document.createElement("script");
+		hm.src = "https://hm.baidu.com/hm.js?495c1c38b2ff9417f6fe3991c20af37d";
+		var s = document.getElementsByTagName("script")[0]; 
+		s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+		
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/peakchen90" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
